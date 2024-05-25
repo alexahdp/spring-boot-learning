@@ -7,8 +7,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-@Configuration
-@PropertySource("classpath:application.properties")
+@Configuration(proxyBeanMethods = true)
 //@ComponentScan(
 //        basePackages = "com.alexahdp.spring",
 //        useDefaultFilters = false,

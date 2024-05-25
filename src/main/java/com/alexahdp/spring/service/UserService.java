@@ -1,6 +1,5 @@
 package com.alexahdp.spring.service;
 
-import com.alexahdp.spring.database.entity.User;
 import com.alexahdp.spring.database.repository.UserRepository;
 import com.alexahdp.spring.dto.UserDto;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +19,10 @@ public class UserService {
 //    }
 
     public Optional<UserDto> sayHello(Integer userId) {
-        return this.userRepository.findById(userId).map(entity -> {
-            log.info(String.format("Hello, %d", entity.id()));
-            return new UserDto(entity.id());
-        });
+        return Optional.of(new UserDto(userId));
+//        return this.userRepository.findById(userId).map(entity -> {
+//            log.info(String.format("Hello, %d", entity.id()));
+//            return new UserDto(entity.id());
+//        });
     }
 }
