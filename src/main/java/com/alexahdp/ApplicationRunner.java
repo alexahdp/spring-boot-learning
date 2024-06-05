@@ -12,8 +12,8 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 public class ApplicationRunner {
     public static void main(String[] args) {
         var context = SpringApplication.run(ApplicationRunner.class, args);
-        UserService userService = context.getBean("userService", UserService.class);
-        userService.sayHello(1);
+//        UserService userService = context.getBean("userService", UserService.class);
+//        userService.sayHello(1);
 
         UserRepository userRepository = context.getBean("userRepository", UserRepository.class);
         userRepository.findAll();
