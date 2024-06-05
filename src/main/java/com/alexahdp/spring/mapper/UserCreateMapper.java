@@ -4,9 +4,13 @@ import com.alexahdp.spring.database.entity.Company;
 import com.alexahdp.spring.database.entity.User;
 import com.alexahdp.spring.database.repository.CompanyRepository;
 import com.alexahdp.spring.dto.UserCreateDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
+@RequiredArgsConstructor
 public class UserCreateMapper implements Mapper<UserCreateDto, User> {
     private final CompanyRepository companyRepository;
 

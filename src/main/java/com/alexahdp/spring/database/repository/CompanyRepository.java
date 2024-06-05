@@ -1,24 +1,20 @@
 package com.alexahdp.spring.database.repository;
 
 import com.alexahdp.spring.database.entity.Company;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-@Slf4j
-@Component("companyRepository")
-@RequiredArgsConstructor
-public class CompanyRepository {
 
-//    @Override
-    public Optional<Company> findById(Integer id) {
-        return Optional.of(new Company(id, null, Collections.emptyMap()));
-    }
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
+    @Query("SELECT c FROM Company c WHERE c.name = ?1")
+    Optional<Company> findByName(String name);
 
-    public void delete(Company entity) {
-        log.info("Delete company");
-    }
+    List<Company> findAllByNameContainingIgnoreCase(String fragment);
+
+    // taken from PartTreeJpaQuery
+//    Optional<Company> findById(Integer id);
+//    void delete(Company entity);
 }

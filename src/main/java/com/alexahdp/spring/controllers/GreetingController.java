@@ -11,16 +11,16 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class GreetingController {
-    private final UserService userService;
+//    private final UserService userService;
 
 //    @RequestMapping(value = "/greeting/{name}", method = RequestMethod.GET)
-    @GetMapping("/greeting/{name}")
-    @ResponseBody
-    public List<UserDto> greeting(
-            @PathVariable String name
-//            @SessionAttribute("session") String session.
-//            @RequestParam(value = "session") String session
-    ) {
-        return userService.findAll();
-    }
+//    @GetMapping("/greeting/{name}")
+//    @ResponseBody
+//    public List<UserDto> greeting(
+//            @PathVariable String name
+////            @SessionAttribute("session") String session.
+////            @RequestParam(value = "session") String session
+//    ) {
+//        return userService.findAll();
+//    }
 }

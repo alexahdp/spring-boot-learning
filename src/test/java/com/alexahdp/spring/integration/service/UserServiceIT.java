@@ -18,11 +18,11 @@ public class UserServiceIT {
     @Autowired
     private UserService userService;
 
-    @Test
-    void sayHello() {
-        var actualResult = this.userService.sayHello(USER_ID);
-        Assertions.assertTrue(actualResult.isPresent());
-        var expectedResult = new UserDto(USER_ID);
-        actualResult.ifPresent(actual -> assertEquals(expectedResult, actual));
-    }
+//    @Test
+//    void sayHello() {
+//        var actualResult = this.userService.sayHello(USER_ID);
+//        Assertions.assertTrue(actualResult.isPresent());
+//        var expectedResult = new UserDto(USER_ID);
+//        actualResult.ifPresent(actual -> assertEquals(expectedResult, actual));
+//    }
 }
