@@ -1,6 +1,9 @@
 package com.alexahdp.spring.dto;
 
+import com.alexahdp.spring.database.entity.Role;
 import lombok.Value;
+
+import java.time.LocalDate;
 
 @Value
 public class UserCreateDto {
@@ -8,7 +11,7 @@ public class UserCreateDto {
     String lastName;
     String username;
     String password;
-    String birthDate;
-    String role;
+    LocalDate birthDate;
+    Role role;
     Integer companyId;
 }

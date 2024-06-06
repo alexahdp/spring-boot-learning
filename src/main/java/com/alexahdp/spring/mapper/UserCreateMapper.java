@@ -21,8 +21,8 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User> {
         user.setLastname(object.getLastName());
         user.setUsername(object.getUsername());
 //        user.setPassword(object.getPassword());
-//        user.setBirthDate(object.getBirthDate());
-//        user.setRole(object.getRole());
+        user.setBirthDate(object.getBirthDate());
+        user.setRole(object.getRole());
         user.setCompany(getCompany(object.getCompanyId()));
         return user;
     }

@@ -1,10 +1,10 @@
 package com.alexahdp.spring.service;
 
 import com.alexahdp.spring.database.repository.UserRepository;
-//import com.alexahdp.spring.dto.UserCreateDto;
+import com.alexahdp.spring.dto.UserCreateDto;
 import com.alexahdp.spring.dto.UserDto;
-//import com.alexahdp.spring.dto.UserReadDto;
-//import com.alexahdp.spring.mapper.UserCreateMapper;
+import com.alexahdp.spring.dto.UserReadDto;
+import com.alexahdp.spring.mapper.UserCreateMapper;
 import com.alexahdp.spring.mapper.UserReadMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final UserReadMapper userReadMapper;
-//    private final UserCreateMapper userCreateMapper;
+    private final UserCreateMapper userCreateMapper;
 
 
     public List<UserDto> findAll() {
@@ -32,10 +32,10 @@ public class UserService {
         return userRepository.findById(id).map(userReadMapper::map);
     }
 
-//    public final UserReadDto create(UserCreateDto userCreateDto) {
-//        return Optional.of(userCreateDto).map(userCreateMapper::map)
-//                .map(userRepository::save)
-//                .map(userReadMapper::map)
-//                .orElseThrow();
-//    }
+    public final UserDto create(UserCreateDto userCreateDto) {
+        return Optional.of(userCreateDto).map(userCreateMapper::map)
+                .map(userRepository::save)
+                .map(userReadMapper::map)
+                .orElseThrow();
+    }
 }
