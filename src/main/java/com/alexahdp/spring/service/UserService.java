@@ -38,4 +38,8 @@ public class UserService {
                 .map(userReadMapper::map)
                 .orElseThrow();
     }
+
+    public final void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
 }

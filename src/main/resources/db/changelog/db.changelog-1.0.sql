@@ -1,9 +1,15 @@
+--liquibase formatted sql
+
+--changeset aleksandr:1.0
 CREATE TABLE IF NOT EXISTS company
 (
     id SERIAL PRIMARY KEY ,
     name VARCHAR(64) NOT NULL UNIQUE
 );
+--rollback DROP TABLE company;
 
+
+--changeset aleksandr:1.1
 CREATE TABLE IF NOT EXISTS company_locales
 (
     company_id INT REFERENCES company (id),
