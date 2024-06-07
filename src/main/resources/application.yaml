@@ -6,6 +6,9 @@ logging:
     name: app.log
     path: /logs
 spring:
+  app:
+    image:
+      bucket: users-images
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres

@@ -1,4 +1,5 @@
 .gradle
+images/
 *.log
 build/
 db_data

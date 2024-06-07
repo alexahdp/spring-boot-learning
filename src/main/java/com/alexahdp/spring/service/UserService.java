@@ -1,14 +1,16 @@
 package com.alexahdp.spring.service;
 
 import com.alexahdp.spring.database.repository.UserRepository;
-import com.alexahdp.spring.dto.UserCreateDto;
-import com.alexahdp.spring.dto.UserDto;
-import com.alexahdp.spring.dto.UserReadDto;
+import com.alexahdp.spring.database.entity.User;
+import com.alexahdp.spring.dto.*;
 import com.alexahdp.spring.mapper.UserCreateMapper;
 import com.alexahdp.spring.mapper.UserReadMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserReadMapper userReadMapper;
     private final UserCreateMapper userCreateMapper;
-
+    private final ImageService imageService;
 
     public List<UserDto> findAll() {
         return userRepository.findAll().stream()
@@ -39,7 +41,41 @@ public class UserService {
                 .orElseThrow();
     }
 
-    public final void deleteById(Long id) {
+    public final UserDto update(Long userId, UserUpdateDto userUpdateDto) {
+        return userRepository.findById(userId).map(u -> {
+            u.setFirstname(userUpdateDto.getFirstName());
+            u.setLastname(userUpdateDto.getLastName());
+            userRepository.save(u);
+            return u;
+        }).map(userReadMapper::map).orElseThrow();
+    }
+
+    public final UserDto setImage(Long userId, MultipartFile file, String name) {
+        return userRepository.findById(userId).map(u -> {
+            uploadImage(file);
+            u.setImage(name);
+            userRepository.save(u);
+            return u;
+        }).map(userReadMapper::map).orElseThrow();
+    }
+
+    @SneakyThrows
+    private void uploadImage(MultipartFile image) {
+        if (image.isEmpty()) {
+            throw new IllegalArgumentException("Image is empty");
+        }
+        imageService.uploadImage(image.getOriginalFilename(), image.getInputStream());
+    }
+
+    public final boolean deleteById(Long id) {
         userRepository.deleteById(id);
+        return true;
+    }
+
+    public final Optional<byte[]> findAvatar(Long userId) {
+    return userRepository.findById(userId)
+                .map(User::getImage)
+                .filter(StringUtils::hasText)
+                .flatMap(imageService::get);
     }
 }

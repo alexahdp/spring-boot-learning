@@ -17,6 +17,11 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User> {
     @Override
     public User map(UserCreateDto object) {
         User user = new User();
+        copy(object, user);
+        return user;
+    }
+
+    private void copy(UserCreateDto object, User user) {
         user.setFirstname(object.getFirstName());
         user.setLastname(object.getLastName());
         user.setUsername(object.getUsername());
@@ -24,12 +29,11 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User> {
         user.setBirthDate(object.getBirthDate());
         user.setRole(object.getRole());
         user.setCompany(getCompany(object.getCompanyId()));
-        return user;
     }
 
     public Company getCompany(Integer companyId) {
-        return Optional.ofNullable(companyId).flatMap(
-                companyRepository::findById
-        ).orElse(null);
+        return Optional.ofNullable(companyId)
+                .flatMap(companyRepository::findById)
+                .orElse(null);
     }
 }
