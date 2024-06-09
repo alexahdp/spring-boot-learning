@@ -2,6 +2,7 @@ package com.alexahdp.spring.integration.database.repository;
 
 import com.alexahdp.spring.database.entity.Company;
 import com.alexahdp.spring.database.repository.CompanyRepository;
+import com.alexahdp.spring.integration.IntegrationTestBase;
 import com.alexahdp.spring.integration.annotation.IT;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,9 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
 @Transactional
-public class CompanyRepositoryTest {
+public class CompanyRepositoryTest extends IntegrationTestBase {
     private final Integer APPLE_ID = 5;
     private final EntityManager entityManager;
     private final CompanyRepository companyRepository;

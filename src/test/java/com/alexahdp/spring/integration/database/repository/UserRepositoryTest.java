@@ -2,6 +2,7 @@ package com.alexahdp.spring.integration.database.repository;
 
 import com.alexahdp.spring.database.entity.Role;
 import com.alexahdp.spring.database.repository.UserRepository;
+import com.alexahdp.spring.integration.IntegrationTestBase;
 import com.alexahdp.spring.integration.annotation.IT;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
@@ -15,10 +16,22 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@IT
 @RequiredArgsConstructor
-public class UserRepositoryTest {
+public class UserRepositoryTest extends IntegrationTestBase {
     private final UserRepository userRepository;
+
+
+    @Test
+    void checkBatchUser() {
+        var users = userRepository.findAll();
+        userRepository.updateCompanyAndRole(users);
+    }
+
+    @Test
+    void checkJdbcTemplate() {
+        var users = userRepository.findAllByCompanyIdAndRole(1, Role.USER);
+        assertThat(users).hasSize(1);
+    }
 
     @Test
     void checkQueries() {

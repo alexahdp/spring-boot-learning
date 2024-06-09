@@ -2,6 +2,7 @@ logging:
   level:
     root: INFO
 #    com.alexahdp.spring.database.pool: INFO
+    com.springframework.jdbc.core: DEBUG
   file:
     name: app.log
     path: /logs
@@ -16,6 +17,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     properties.hibernate:
+      batch_size: 50
       show_sql: true
       format_sql: true
       hbm2ddl.auto: validate
