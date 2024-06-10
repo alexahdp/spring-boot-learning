@@ -20,4 +20,4 @@ spring:
       batch_size: 50
       show_sql: true
       format_sql: true
-      hbm2ddl.auto: validate
+      hbm2ddl.auto: update

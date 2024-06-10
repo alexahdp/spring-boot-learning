@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset aleksandr:1.0
 INSERT INTO company (id, name)
 VALUES (1, 'Google'),
        (2, 'Meta'),

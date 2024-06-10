@@ -5,6 +5,7 @@ import com.alexahdp.spring.validation.UserInfo;
 import lombok.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -20,6 +21,7 @@ public class UserCreateDto {
 
     String username;
 
+    @NotBlank
     String password;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

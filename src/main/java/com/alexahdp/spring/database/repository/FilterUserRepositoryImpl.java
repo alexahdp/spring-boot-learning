@@ -13,8 +13,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.Predicate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +48,23 @@ public class FilterUserRepositoryImpl implements FilterUserRepository {
 
     @Override
     public List<User> findAllByFilter(UserFilter filter) {
-        return List.of();
+        var cb = entityManager.getCriteriaBuilder();
+        var criteria = cb.createQuery(User.class);
+        var user = criteria.from(User.class);
+        criteria.select(user);
+        List<Predicate> predicates = new ArrayList<>();
+        if (filter.firstName() != null) {
+            predicates.add(cb.like(user.get("firstname"), filter.firstName()));
+        }
+        if (filter.lastName() != null) {
+            predicates.add(cb.like(user.get("lastname"), filter.lastName()));
+        }
+        if (filter.birthDate() != null) {
+            predicates.add(cb.lessThan(user.get("birthDate"), filter.birthDate()));
+        }
+        criteria.where(predicates.toArray(Predicate[]::new));
+        return entityManager.createQuery(criteria).getResultList();
+
 //        var predicate = QPredicates.builder()
 //                .add(filter.firstName(), user.firstname::containsIgnoreCase)
 //                .add(filter.lastName(), user.lastname::containsIgnoreCase)

@@ -5,7 +5,9 @@ import com.alexahdp.spring.database.entity.User;
 import com.alexahdp.spring.database.repository.CompanyRepository;
 import com.alexahdp.spring.dto.UserCreateDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -13,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserCreateMapper implements Mapper<UserCreateDto, User> {
     private final CompanyRepository companyRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User map(UserCreateDto object) {
@@ -29,6 +32,11 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User> {
         user.setBirthDate(object.getBirthDate());
         user.setRole(object.getRole());
         user.setCompany(getCompany(object.getCompanyId()));
+
+        Optional.ofNullable(object.getPassword())
+                .filter(StringUtils::hasText)
+                .map(passwordEncoder::encode)
+                .ifPresent(user::setPassword);
     }
 
     public Company getCompany(Integer companyId) {

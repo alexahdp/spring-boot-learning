@@ -12,6 +12,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +30,16 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping("/users")
-    public List<UserDto> getUsers() {
+    public List<UserDto> getUsers(
+//            @CurrentSecurityContext SecurityContext securityContext
+            @AuthenticationPrincipal UserDetails userDetails
+            ) {
         return userService.findAll();
     }
 
@@ -47,6 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserDto getUserById(@PathVariable("id") Long id) {
         return userService.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "User not found"));

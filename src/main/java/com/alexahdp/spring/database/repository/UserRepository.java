@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.*;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.LockModeType;
@@ -17,6 +18,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, FilterUserRepository {
+
+    Optional<User> findByUsername(String username);
+
     @Query("SELECT u FROM User u WHERE u.firstname like %:firstname% AND u.lastname like %:lastname%")
     List<User> findAllBy(String firstname, String lastname);
 

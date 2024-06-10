@@ -2,6 +2,7 @@ package com.alexahdp.spring.integration.database.repository;
 
 import com.alexahdp.spring.database.entity.Role;
 import com.alexahdp.spring.database.repository.UserRepository;
+import com.alexahdp.spring.dto.UserFilter;
 import com.alexahdp.spring.integration.IntegrationTestBase;
 import com.alexahdp.spring.integration.annotation.IT;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserRepositoryTest extends IntegrationTestBase {
     private final UserRepository userRepository;
 
+    @Test
+    void checkCustomImplementation() {
+        UserFilter filter = new UserFilter(null, "%ov%", LocalDate.now());
+        userRepository.findAllByFilter(filter);
+    }
+
+    @Test
+    void checkAuditing() {
+        var ivan = userRepository.findById(1L).get();
+        ivan.setBirthDate(ivan.getBirthDate().plusYears(1L));
+        userRepository.flush();
+        System.out.println(ivan.getUpdatedAt());
+
+    }
 
     @Test
     void checkBatchUser() {
